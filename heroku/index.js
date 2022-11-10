@@ -6,15 +6,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-var express = require("express");
+import express, { json } from "express";
 var app = express();
-var xhub = require("express-x-hub");
+import xhub from "express-x-hub";
 
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"));
 
 app.use(xhub({ algorithm: "sha1", secret: process.env.APP_SECRET }));
-app.use(express.json());
+app.use(json());
 
 var token = process.env.TOKEN || "token";
 let received_updates = [];
@@ -45,19 +45,18 @@ app.post("/facebook", function (req, res) {
     res.sendStatus(401);
     return;
   }
- console.log("request header X-Hub-Signature validated");
- let body = req.body
- webhook = JSON.parse(body.replace(/\<pre\>|\<\/pre\>/gm, ''))
+  console.log("request header X-Hub-Signature validated");
+  let body = req.body;
+  webhook = JSON.parse(body.replace(/\<pre\>|\<\/pre\>/gm, ""));
 
- let messsages =[]
+  let messsages = [];
 
- for (const index in webhook) {
-  if (webhook[index].entry[0].changes[0].value.messages) {
-    // Push to array of messageObjects
-    messsages.push(webhook[index]);
+  for (const index in webhook) {
+    if (webhook[index].entry[0].changes[0].value.messages) {
+      // Push to array of messageObjects
+      messsages.push(webhook[index]);
+    }
   }
-}
-
 
   // Process the Facebook updates here
   received_updates.unshift(messsages);
