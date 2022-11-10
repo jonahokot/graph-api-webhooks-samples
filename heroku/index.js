@@ -46,15 +46,14 @@ app.post("/facebook", function (req, res) {
     return;
   }
   console.log("request header X-Hub-Signature validated");
-  let body = req.body;
-  let webhook = JSON.parse(body.replace(/\<pre\>|\<\/pre\>/gm, ""));
+  let body = JSON.parse(req.body);
 
   let messsages = [];
 
   for (const index in webhook) {
-    if (webhook[index].entry[0].changes[0].value.messages) {
+    if (body[index].entry[0].changes[0].value.messages) {
       // Push to array of messageObjects
-      messsages.push(webhook[index]);
+      messsages.push(body[index]);
     }
   }
 
