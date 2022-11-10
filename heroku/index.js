@@ -7,8 +7,8 @@
  */
 
 import express, { json } from "express";
-var app = express();
-import xhub from "express-x-hub";
+const app = express();
+const xhub = require ('express-x-hub');
 
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"));
