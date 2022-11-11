@@ -50,7 +50,7 @@ app.post("/facebook", function (req, res) {
 
   let messsages = [];
 
-  for (const index in webhook) {
+  for (const index in body) {
     if (body[index].entry[0].changes[0].value.messages) {
       // Push to array of messageObjects
       messsages.push(body[index]);
