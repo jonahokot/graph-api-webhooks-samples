@@ -46,7 +46,7 @@ app.post("/facebook", function (req, res) {
     return;
   }
   console.log("request header X-Hub-Signature validated");
-  let body = JSON.parse(req.body);
+  let body = req.body;
 
   let messsages = [];
 
